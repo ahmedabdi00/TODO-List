@@ -1,31 +1,3 @@
-// $("form").on("submit", (event) => {
-//   event.preventDefault();
-//   const $taskText = $("#input-task").val();
-//   const $taskCategory = $("#select-category").val()
-//   const $taskDate = $("#input-date").val()
-//   const $taskPriority = $("#select-priority").val()
-
-//   const $task =
-//     `<article class="task task-${$taskCategory}">
-//   <div>
-//     <h2>${$taskText}</h2>
-//     <p>${$taskDate}</p>
-//   </div>
-//   <div class="task-icon-container">
-//     <div class="dot ${$taskPriority}"></div>
-//     <div>
-//       <i class="task-icon fa-solid fa-square-check"></i>
-//       <i class="task-icon fa-solid fa-pencil"></i>
-//       <i class="task-icon fa-solid fa-trash"></i>
-//     </div>
-//   </div>
-// </article>`
-
-// $("#list-section").prepend($task)
-
-// $("form")[0].reset();
-// });
-
 let taskToEdit = null; // Store the task being edited
 
 // When .fa-pencil is clicked, set the task to edit and pre-fill the form
