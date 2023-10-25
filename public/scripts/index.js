@@ -6,15 +6,15 @@ $("#list-section").on('click', '.fa-pencil', function (event) {
 
   // Store the task being edited for later reference
   taskToEdit = $(event.target).closest('.task');
-  
+
   // Pre-fill the form with the task details
   const taskTitle = taskToEdit.find('h2').text();
   const taskCategory = taskToEdit.hasClass('task-watch') ? 'watch' :
-                      taskToEdit.hasClass('task-eat') ? 'eat' :
-                      taskToEdit.hasClass('task-read') ? 'read' : 'buy';
+    taskToEdit.hasClass('task-eat') ? 'eat' :
+      taskToEdit.hasClass('task-read') ? 'read' : 'buy';
   const taskDate = taskToEdit.find('p').text();
   const taskPriority = taskToEdit.find('.dot').attr('class').replace('dot', '').trim();
-  
+
   $("#input-task").val(taskTitle);
   $("#select-category").val(taskCategory);
   $("#input-date").val(taskDate);
@@ -24,12 +24,12 @@ $("#list-section").on('click', '.fa-pencil', function (event) {
 // When the form is submitted, update the task
 $("form").on("submit", (event) => {
   event.preventDefault();
-  
+
   const $taskText = $("#input-task").val();
   const $taskCategory = $("#select-category").val();
   const $taskDate = $("#input-date").val();
   const $taskPriority = $("#select-priority").val();
-  
+
   if (taskToEdit) {
     // Update the existing task with new values
     taskToEdit.find('h2').text($taskText);
@@ -53,10 +53,10 @@ $("form").on("submit", (event) => {
       </div>
     </div>
   </article>`;
-    
+
     $("#list-section").prepend($task);
   }
-  
+
   $("form")[0].reset();
   taskToEdit = null; // Reset the taskToEdit variable
 });
