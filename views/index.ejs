@@ -2,47 +2,192 @@
 <html lang="en">
 
 <head>
+  <title>Home Page</title>
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Midterm Project (Todo List)</title>
 
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" />
   <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/modal.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+  integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script src="/vendor/jquery-3.0.0.js"></script>
+  <script defer src="/scripts/index.js"></script>
+  <script defer src="/scripts/modal.js"></script>
 </head>
 
 <body>
-
-  <header>
+  <header id="header">
     <h1>Smart To-Do List</h1>
-    <form id="new-task-form">
-      <input type="text" name="new-task-input" id="new-task-input" placeholder="What do you have planned?" />
-      <input type="submit" id="new-task-submit" value="Add task" />
-    </form>
-  </header>
-  <main>
-    <section class="task-list">
-      <h2>Tasks</h2>
-
-      <div id="tasks">
-
-        <div class="task">
-					<div class="content">
-						<input 
-							type="text" 
-							class="text" 
-							value="A new task"
-							readonly>
-					</div>
-					<div class="actions">
-						<button class="edit">Edit</button>
-						<button class="delete">Delete</button>
-					</div>
-				</div>
-
-      </div>
+    <section id="header-right">
+      <h2>Welcome, Username</h2>
+      <a id="logout" href="#">Logout</a>
     </section>
-  </main>
-  <script src="/scripts/main.js"></script>
-</body>a
+  </header>
+<nav id="nav-list">
+  <a id="nav-all" class="nav-item" href="#">
+    <i class="fa-solid fa-list"></i>
+    <p>All</p>
+  </a>
+  <a id="nav-watch" class="nav-item" href="#">
+    <i class="fa-solid fa-tv"></i>
+    <p>Watch</p>
+  </a>
+  <a id="nav-eat" class="nav-item" href="#">
+    <i class="fa-solid fa-utensils"></i>
+    <p>Eat</p>
+  </a>
+  <a id="nav-read" class="nav-item" href="#">
+    <i class="fa-solid fa-book"></i>
+    <p>Read</p>
+  </a>
+  <a id="nav-buy" class="nav-item" href="#">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <p>Buy</p>
+  </a>
+  <a id="nav-completed" class="nav-item" href="#">
+    <i class="fa-solid fa-circle-check"></i>
+    <p>Completed</p>
+  </a>
+</nav>
+<main id="list-container">
+  <h1>My List</h1>
+  <section id="list-section">
+    <article class="task task-eat invisible">
+      <div>
+        <h2>Eat Pizza</h2>
+        <p>Oct 25, 2023</p>
+      </div>
+      <div class="task-icon-container">
+        <div class="dot"></div>
+        <div>
+          <i class="task-icon fa-solid fa-square-check"></i>
+          <i class="task-icon fa-solid fa-pencil"></i>
+          <i class="task-icon fa-solid fa-trash"></i>
+        </div>
+      </div>
+    </article>
+    <article class="task task-eat invisible">
+      <div>
+        <h2>Eat Sushi</h2>
+        <p>Oct 25, 2023</p>
+      </div>
+      <div class="task-icon-container">
+        <div class="dot"></div>
+        <div>
+          <i class="task-icon fa-solid fa-square-check"></i>
+          <i class="task-icon fa-solid fa-pencil"></i>
+          <i class="task-icon fa-solid fa-trash"></i>
+        </div>
+      </div>
+    </article>
+    <article class="task task-read invisible">
+      <div>
+        <h2>Read Harry Potter</h2>
+        <p>Oct 25, 2023</p>
+      </div>
+      <div class="task-icon-container">
+        <div class="dot"></div>
+        <div>
+          <i class="task-icon fa-solid fa-square-check"></i>
+          <i class="task-icon fa-solid fa-pencil"></i>
+          <i class="task-icon fa-solid fa-trash"></i>
+        </div>
+      </div>
+    </article>
+    <article class="task task-watch invisible">
+      <div>
+        <h2>Watch The Avengers</h2>
+        <p>Oct 25, 2023</p>
+      </div>
+      <div class="task-icon-container">
+        <div class="dot"></div>
+        <div>
+          <i class="task-icon fa-solid fa-square-check"></i>
+          <i class="task-icon fa-solid fa-pencil"></i>
+          <i class="task-icon fa-solid fa-trash"></i>
+        </div>
+      </div>
+    </article>
+    <article class="task task-buy invisible">
+      <div>
+        <h2>Buy Vacuum</h2>
+        <p>Oct 25, 2023</p>
+      </div>
+      <div class="task-icon-container">
+        <div class="dot"></div>
+        <div>
+          <i class="task-icon fa-solid fa-square-check"></i>
+          <i class="task-icon fa-solid fa-pencil"></i>
+          <i class="task-icon fa-solid fa-trash"></i>
+        </div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<!-- modal -->
+
+<section class="modal hidden">
+  <div class="add-task-header">
+    <h1>Task</h1>
+    <button class="btn btn-close" href="#">⨉</button>
+  </div>
+  <form>
+    <div>
+      <label>Task:</label><br>
+      <input type="text" name="task-name" id="input-task">
+    </div>
+    <br>
+    <div>
+      <label>Category:</label><br>
+      <select class="input-task" name="task-category" id="select-category">
+        <option disabled selected value></option>
+        <option value="Watch">Watch</option>
+        <option value="Eat">Eat</option>
+        <option value="Read">Read</option>
+        <option value="Buy">Buy</option>
+      </select>
+    </div>
+    <br>
+    <div>
+      <label>Date:</label><br>
+      <input type="date" name="task-date" class="input-task" id="input-date">
+    </div>
+    <br>
+    <div>
+      <label>Priority:</label><br>
+      <select class="input-task" name="task-priority" id="select-priority">
+        <option disabled selected value></option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+    <br>
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</section>
+<div class="overlay hidden"></div>
+
+<!-- end of modal -->
+
+
+
+<footer>
+  <a id="add-task" href="#">
+    <i class="fa-solid fa-circle-plus btn btn-open"></i>
+  </a>
+</footer>
+</body>
 
 </html>
