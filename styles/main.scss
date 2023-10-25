@@ -2,33 +2,44 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: rgb(163, 208, 219);
-  background: linear-gradient(227deg,
-      rgba(163, 208, 219, 1) 0%,
-      rgba(163, 176, 219, 1) 20%,
-      rgba(163, 173, 219, 1) 34%,
-      rgba(163, 219, 208, 1) 59%,
-      rgba(163, 208, 219, 1) 74%,
-      rgba(163, 208, 219, 1) 100%);    
+  background: rgb(24, 39, 55); /* Darker background color */
+  color: #FFF;
+  font-family: "Fira sans", sans-serif;
 }
 
-#header {
+header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  background-color: aqua;
+  background-color: #374151; /* Darker header background color */
 }
 
 #header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
+  color: #FFF; /* White text color for the header elements */
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+#logout-button {
+  background-color: #EF4444; /* Dark red background for the Logout button */
+  color: #FFF; /* White text color for the Logout button */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#logout-button:hover {
+  background-color: #FF6B6B; /* Lighter red on button hover */
 }
 
 a {
   text-decoration: none;
-  color: black;
+  color: #FFF; /* White text color for links */
 }
 
 #nav-list {
@@ -43,19 +54,14 @@ a {
   gap: 5px;
 }
 
-footer {
-  align-self: flex-end;
-  padding: 20px;
-}
-
-#list-container {
+main {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   margin: 0 20px;
 }
 
-#list-section {
+.task-list {
   display: flex;
   flex-direction: column;
 }
@@ -65,9 +71,15 @@ footer {
   justify-content: space-between;
   align-items: center;
   width: 60%;
-  background-color: beige;
+  background-color: #2D3748; /* Darker task background color */
   margin-bottom: 20px;
   padding: 0 15px;
+  border-radius: 1rem; /* Rounded corners */
+  transition: 0.4s;
+}
+
+.task:hover {
+  background-color: #4A5568; /* Darker background on hover */
 }
 
 .task-icon-container {
@@ -77,11 +89,11 @@ footer {
 
 .fa-circle-plus {
   font-size: 3em;
-  color: red;
+  color: #EF4444; /* Dark red color */
 }
 
 .clicked.fa-square-check {
-  color: rgb(42, 224, 42)
+  color: #22C55E; /* Light green color */
 }
 
 .fa-square-check:hover {
@@ -89,13 +101,12 @@ footer {
 }
 
 .fa-pencil:hover {
-  color: rgb(226, 223, 0);
+  color: #E2DF00; /* Yellow color on hover */
   cursor: pointer;
 }
 
 .fa-trash:hover {
-  color: red;
-  cursor: pointer;
+  color: #EF4444; /* Dark red color on hover */
 }
 
 .dot {
@@ -106,15 +117,15 @@ footer {
 }
 
 .high-priority {
-  background-color: #ff0000;
+  background-color: #EF4444; /* Dark red for high-priority */
 }
 
 .med-priority {
-  background-color: #fff824;
+  background-color: #FFD700; /* Gold for medium-priority */
 }
 
 .low-priority {
-  background-color: rgb(0, 215, 0);
+  background-color: #00D700; /* Bright green for low-priority */
 }
 
 .invisible {
