@@ -1,36 +1,26 @@
 const $form = $("form");
-const $navItems = $("#nav-list a");
+const $navItems = $(".nav-item");
 let taskToEdit = null;
 
-// Edit task when .fa-pencil is clicked
-$("#list-section").on('click', '.fa-pencil', function (event) {
-  openModal();
-
-  // Store the task being edited for later reference
-  taskToEdit = $(event.target).closest('.task');
-
-  // Pre-fill the form with the task details
-  const taskTitle = taskToEdit.find('h2').text();
-  const taskCategory = taskToEdit.hasClass('task-watch') ? 'watch' :
-    taskToEdit.hasClass('task-eat') ? 'eat' :
-      taskToEdit.hasClass('task-read') ? 'read' : 'buy';
-  const taskDate = taskToEdit.find('p').text();
-  const taskPriority = taskToEdit.find('.dot').attr('class').replace('dot', '').trim();
-
-  $("#input-task").val(taskTitle);
-  $("#select-category").val(taskCategory);
-  $("#input-date").val(taskDate);
-  $("#select-priority").val(taskPriority);
-});
-
-// const renderTasks = function(taskObjArray) {
-//   for (let task of taskObjArray) {
-//     let layout = createTask (task);
-//     $("#list-section").prepend(task)
-//   }
-// }
+const renderTasks = function(taskObjArray) {
+  for (let task of taskObjArray) {
+    let layout = createTask (task);
+    $("#list-section").prepend(task)
+  }
+}
 
 const createTask = function (taskData) {
+  if (taskData["task-category"] === undefined) {
+    if (taskData["task-name"].toLowerCase().includes("watch")) {
+      taskData["task-category"] = "watch"
+    } else if (taskData["task-name"].toLowerCase().includes("eat")) {
+      taskData["task-category"] = "eat"
+    } else if (taskData["task-name"].toLowerCase().includes("read")) {
+      taskData["task-category"] = "read"
+    } else if (taskData["task-name"].toLowerCase().includes("buy")) {
+      taskData["task-category"] = "buy"
+    }
+  }
   const $task = `<article class="task task-${taskData["task-category"]} invisible">
   <div>
     <h2>${taskData["task-name"]}</h2>
@@ -46,7 +36,7 @@ const createTask = function (taskData) {
   </div>
 </article>`;
 
-$("#list-section").prepend($task)
+  $("#list-section").prepend($task)
 }
 
 // Update the task when the form is submitted
@@ -54,12 +44,11 @@ $("form").on("submit", (event) => {
   event.preventDefault();
   const myFormData = new FormData(event.target)
   const formDataObj = Object.fromEntries(myFormData.entries())
-  console.log(formDataObj)
 
-  const $taskText = formDataObj["task-name"]
-  const $taskCategory = formDataObj["task-category"]
-  const $taskDate = formDataObj["task-date"]
-  const $taskPriority = formDataObj["task-priority"]
+  const $taskText = formDataObj["task-name"];
+  const $taskCategory = formDataObj["task-category"];
+  const $taskDate = formDataObj["task-date"];
+  const $taskPriority = formDataObj["task-priority"];
 
   if (taskToEdit) {
     // Update the existing task with new values
@@ -109,6 +98,7 @@ function filterTasks(category) {
   const $task = $(".task");
   $task.each((index, element) => {
     const $element = $(element);
+    const $squareCheck = $element.find('.fa-square-check');
     if (category === "all" || $element.hasClass(`task-${category}`)) {
       $element.removeClass("invisible");
     } else {
