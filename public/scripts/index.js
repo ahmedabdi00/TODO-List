@@ -1,4 +1,5 @@
-// Store the task being edited
+const $form = $("form");
+const $navItems = $("#nav-list a");
 let taskToEdit = null;
 
 // Edit task when .fa-pencil is clicked
@@ -22,14 +23,43 @@ $("#list-section").on('click', '.fa-pencil', function (event) {
   $("#select-priority").val(taskPriority);
 });
 
+// const renderTasks = function(taskObjArray) {
+//   for (let task of taskObjArray) {
+//     let layout = createTask (task);
+//     $("#list-section").prepend(task)
+//   }
+// }
+
+const createTask = function (taskData) {
+  const $task = `<article class="task task-${taskData["task-category"]} invisible">
+  <div>
+    <h2>${taskData["task-name"]}</h2>
+    <p>${taskData["task-date"]}</p>
+  </div>
+  <div class="task-icon-container">
+    <div class="dot ${taskData["task-priority"]}"></div>
+    <div>
+      <i class="task-icon fa-solid fa-square-check"></i>
+      <i class="task-icon fa-solid fa-pencil"></i>
+      <i class="task-icon fa-solid fa-trash"></i>
+    </div>
+  </div>
+</article>`;
+
+$("#list-section").prepend($task)
+}
+
 // Update the task when the form is submitted
 $("form").on("submit", (event) => {
   event.preventDefault();
+  const myFormData = new FormData(event.target)
+  const formDataObj = Object.fromEntries(myFormData.entries())
+  console.log(formDataObj)
 
-  const $taskText = $("#input-task").val();
-  const $taskCategory = $("#select-category").val();
-  const $taskDate = $("#input-date").val();
-  const $taskPriority = $("#select-priority").val();
+  const $taskText = formDataObj["task-name"]
+  const $taskCategory = formDataObj["task-category"]
+  const $taskDate = formDataObj["task-date"]
+  const $taskPriority = formDataObj["task-priority"]
 
   if (taskToEdit) {
     // Update the existing task with new values
@@ -39,26 +69,20 @@ $("form").on("submit", (event) => {
     taskToEdit.find('.dot').attr('class', `dot ${$taskPriority}`);
   } else {
     // Create a new task if taskToEdit is null
-    const $task = `<article class="task task-${$taskCategory}">
-    <div>
-      <h2>${$taskText}</h2>
-      <p>${$taskDate}</p>
-    </div>
-    <div class="task-icon-container">
-      <div class="dot ${$taskPriority}"></div>
-      <div>
-        <i class="task-icon fa-solid fa-square-check"></i>
-        <i class="task-icon fa-solid fa-pencil"></i>
-        <i class="task-icon fa-solid fa-trash"></i>
-      </div>
-    </div>
-  </article>`;
+    createTask(formDataObj)
 
-    $("#list-section").prepend($task);
+    $("form")[0].reset();
+    taskToEdit = null; // Reset the taskToEdit variable
   }
+});
 
-  $("form")[0].reset();
-  taskToEdit = null; // Reset the taskToEdit variable
+$navItems.on("click", function (event) {
+  // Remove the "active" class from all <a> elements
+  $navItems.removeClass("active");
+  // Add the "active" class to the clicked <a> element
+  $(this).addClass("active");
+  // Prevent the default link behavior
+  event.preventDefault();
 });
 
 // Delete a task when .fa-trash is clicked
@@ -70,6 +94,8 @@ $("#list-section").on('click', '.fa-trash', function (event) {
 // Toggle task completion when .fa-square-check is clicked
 $("#list-section").on('click', '.fa-square-check', function (event) {
   $(event.target).toggleClass("clicked");
+  $(this).closest("article").toggleClass("task-completed")
+  $(this).closest("article").toggleClass("invisible")
 });
 
 // Show all tasks
@@ -79,49 +105,44 @@ $("#nav-all").on("click", (event) => {
 });
 
 // Show watch tasks
-$("#nav-watch").on("click", (event) => {
+function filterTasks(category) {
   const $task = $(".task");
   $task.each((index, element) => {
-    if ($(element).hasClass("task-watch")) {
-      $(element).removeClass("invisible");
+    const $element = $(element);
+    if (category === "all" || $element.hasClass(`task-${category}`)) {
+      $element.removeClass("invisible");
     } else {
-      $(element).addClass("invisible");
+      $element.addClass("invisible");
     }
   });
+}
+
+// Show all tasks
+$("#nav-all").on("click", (event) => {
+  filterTasks("all");
+});
+
+// Show watch tasks
+$("#nav-watch").on("click", (event) => {
+  filterTasks("watch");
 });
 
 // Show eat tasks
 $("#nav-eat").on("click", (event) => {
-  const $task = $(".task");
-  $task.each((index, element) => {
-    if ($(element).hasClass("task-eat")) {
-      $(element).removeClass("invisible");
-    } else {
-      $(element).addClass("invisible");
-    }
-  });
+  filterTasks("eat");
 });
 
 // Show read tasks
 $("#nav-read").on("click", (event) => {
-  const $task = $(".task");
-  $task.each((index, element) => {
-    if ($(element).hasClass("task-read")) {
-      $(element).removeClass("invisible");
-    } else {
-      $(element).addClass("invisible");
-    }
-  });
+  filterTasks("read");
 });
 
 // Show buy tasks
 $("#nav-buy").on("click", (event) => {
-  const $task = $(".task");
-  $task.each((index, element) => {
-    if ($(element).hasClass("task-buy")) {
-      $(element).removeClass("invisible");
-    } else {
-      $(element).addClass("invisible");
-    }
-  });
+  filterTasks("buy");
+});
+
+// Show completed tasks
+$("#nav-completed").on("click", (event) => {
+  filterTasks("completed");
 });
