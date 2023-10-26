@@ -1,27 +1,7 @@
 const $form = $("form");
 const $navItems = $(".nav-item");
 let taskToEdit = null;
-
-// Edit task when .fa-pencil is clicked
-$("#list-section").on('click', '.fa-pencil', function (event) {
-  openModal();
-
-  // Store the task being edited for later reference
-  taskToEdit = $(event.target).closest('.task');
-
-  // Pre-fill the form with the task details
-  const taskTitle = taskToEdit.find('h2').text();
-  const taskCategory = taskToEdit.hasClass('task-watch') ? 'watch' :
-    taskToEdit.hasClass('task-eat') ? 'eat' :
-      taskToEdit.hasClass('task-read') ? 'read' : 'buy';
-  const taskDate = taskToEdit.find('p').text();
-  const taskPriority = taskToEdit.find('.dot').attr('class').replace('dot', '').trim();
-
-  $("#input-task").val(taskTitle);
-  $("#select-category").val(taskCategory);
-  $("#input-date").val(taskDate);
-  $("#select-priority").val(taskPriority);
-});
+$("#nav-all").addClass("active");
 
 const renderTasks = function (tasksObjArray) {
   for (let task of tasksObjArray) {
@@ -56,11 +36,23 @@ const createTask = function (taskData) {
   </div>
 </article>`;
 
-return $task
+  return $task
 }
 
 // Update the task when the form is submitted
 $("form").on("submit", (event) => {
+  const categoryNumObj = {
+    "watch": 1,
+    "eat": 2,
+    "read": 3,
+    "buy": 4
+  };
+
+  const priorityNumObj = {
+    "low-priority": 1,
+    "med-priority": 2,
+    "high-priority": 3
+  }
   event.preventDefault();
   const myFormData = new FormData(event.target)
   const formDataObj = Object.fromEntries(myFormData.entries())
@@ -70,19 +62,18 @@ $("form").on("submit", (event) => {
   const $taskDate = formDataObj["task-date"];
   const $taskPriority = formDataObj["task-priority"];
 
-  if (taskToEdit) {
-    // Update the existing task with new values
-    taskToEdit.find('h2').text($taskText);
-    taskToEdit.removeClass().addClass(`task task-${$taskCategory}`);
-    taskToEdit.find('p').text($taskDate);
-    taskToEdit.find('.dot').attr('class', `dot ${$taskPriority}`);
-  } else {
-    // Create a new task if taskToEdit is null
-    createTask(formDataObj)
+  const categoryNum = categoryNumObj[$taskCategory];
+  const priorityNum = priorityNumObj[$taskPriority]
 
-    $("form")[0].reset();
-    taskToEdit = null; // Reset the taskToEdit variable
+  const userFormObj = {
+    "name": $taskText,
+    "category": categoryNum,
+    "priority": priorityNum
   }
+
+  console.log(userFormObj)
+
+  $("form")[0].reset();
 });
 
 $navItems.on("click", function (event) {
