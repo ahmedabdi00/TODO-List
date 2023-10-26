@@ -70,6 +70,11 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
+app.get('/users/register', (req, res) => {
+  res.render('register');
+});
+
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
