@@ -6,6 +6,7 @@ $(() => {
       url: '/api/users'
     })
     .done((response) => {
+      console.log(response)
       const $usersList = $('#users');
       $usersList.empty();
 
