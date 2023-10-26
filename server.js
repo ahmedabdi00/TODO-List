@@ -54,7 +54,12 @@ app.use('/list', listRoutes);
 // Separate them into separate routes files (see above).
 
 app.get('/', (req, res) => {
-  res.render('index');
+  if (req.session.userId === undefined) {
+    res.render('login');
+  } else {
+    console.log(req.session.userId);
+    res.render('index');
+  }
 });
 
 app.get('/register', (req, res) => {

@@ -26,7 +26,7 @@ router.post("/register", (req, res) => {
       }
 
       req.session.userId = user.id;
-      res.send("🤗");
+      res.redirect(`/`);
     })
     .catch((e) => res.send(e));
 });
@@ -46,13 +46,7 @@ router.post("/login", (req, res) => {
     }
 
     req.session.userId = user.id;
-    res.send({
-      user: {
-        name: user.name,
-        email: user.email,
-        id: user.id,
-      },
-    });
+    res.redirect(`/`);
   });
 });
 
