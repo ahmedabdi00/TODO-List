@@ -30,17 +30,6 @@ const renderTasks = function (tasksObjArray) {
   }
 };
 
-const loadTasks = function () {
-
-  $.ajax('/list/todos', { method: 'GET' })
-    .then(function (data) {
-      renderTasks(data);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-};
-
 const createTask = function (taskData) {
   if (taskData["category_id"] === undefined) {
     if (taskData["content"].includes("1")) {
@@ -53,7 +42,7 @@ const createTask = function (taskData) {
       taskData["category_id"] = "buy"
     }
   }
-  const $task = `<article class="task task-${taskData["category_id"]} invisible">
+  const $task = `<article class="task task-${taskData["category_id"]} ${taskData["id"]}" name="${taskData["id"]}">
   <div>
     <h2>${taskData.content}</h2>
   </div>
@@ -107,8 +96,14 @@ $navItems.on("click", function (event) {
 
 // Delete a task when .fa-trash is clicked
 $("#list-section").on('click', '.fa-trash', function (event) {
-  const taskToDelete = $(event.target).closest('.task');
-  taskToDelete.remove();
+  const taskId = $(event.target).closest('.task')[0].getAttribute('name');
+  $.ajax(`/list/todos/${taskId}/delete`, { method: 'POST' })
+    .then(function () {
+      loadTasks();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
 });
 
 // Toggle task completion when .fa-square-check is clicked
@@ -167,5 +162,17 @@ $("#nav-buy").on("click", (event) => {
 $("#nav-completed").on("click", (event) => {
   filterTasks("completed");
 });
+
+const loadTasks = function () {
+
+  $.ajax('/list/todos', { method: 'GET' })
+    .then(function (data) {
+      $("#list-section").empty();
+      renderTasks(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+};
 
 loadTasks();
