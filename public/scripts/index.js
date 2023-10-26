@@ -23,12 +23,31 @@ $("#list-section").on('click', '.fa-pencil', function (event) {
   $("#select-priority").val(taskPriority);
 });
 
-// const renderTasks = function(taskObjArray) {
-//   for (let task of taskObjArray) {
-//     let layout = createTask (task);
-//     $("#list-section").prepend(task)
-//   }
-// }
+const renderTasks = function(todos) {
+  todos.forEach((todo)=> {
+    console.log(todo.content);
+    //todo.content;
+  });
+ 
+  /* for (let task of taskObjArray) {
+   let layout = createTask (task);
+  $("#list-section").prepend(task)
+ } */
+}
+
+const loadTasks = function () {
+  $.ajax('/list/todos', { method: 'GET' })
+    .then(function (data) {
+      console.log("works");
+      console.log(data);
+      renderTasks(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+};
+
+loadTasks();
 
 const createTask = function (taskData) {
   const $task = `<article class="task task-${taskData["task-category"]} invisible">

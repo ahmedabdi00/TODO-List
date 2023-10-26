@@ -77,4 +77,4 @@ const getTodoById = function (todoId) {
     });
 };
 
-module.exports = { checkList, createTodo, updateTodo, getAllTodosForUser, deleteTodo, getTodoById };
+module.exports = { checkList, createTodo, updateTodo, getAllTodosForUser, deleteTodo, getTodoById, getAllTodosForUserAndCategory };

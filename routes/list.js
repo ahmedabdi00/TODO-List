@@ -18,7 +18,7 @@ router.post("/check", async (req, res) => {
 router.get('/todos', async (req, res) => {
   try {
     const todos = await database.getAllTodosForUser(req.session.userId);
-    res.render('todo-list', { todos: todos });
+    res.send(todos);
   } catch (error) {
     res.status(500).send('Error fetching todo list');
   }
