@@ -2,32 +2,63 @@ const $form = $("form");
 const $navItems = $(".nav-item");
 let taskToEdit = null;
 
-const renderTasks = function(taskObjArray) {
-  for (let task of taskObjArray) {
-    let layout = createTask (task);
-    $("#list-section").prepend(task)
+// Edit task when .fa-pencil is clicked
+$("#list-section").on('click', '.fa-pencil', function (event) {
+  openModal();
+
+  // Store the task being edited for later reference
+  taskToEdit = $(event.target).closest('.task');
+
+  // Pre-fill the form with the task details
+  const taskTitle = taskToEdit.find('h2').text();
+  const taskCategory = taskToEdit.hasClass('task-watch') ? 'watch' :
+    taskToEdit.hasClass('task-eat') ? 'eat' :
+      taskToEdit.hasClass('task-read') ? 'read' : 'buy';
+  const taskDate = taskToEdit.find('p').text();
+  const taskPriority = taskToEdit.find('.dot').attr('class').replace('dot', '').trim();
+
+  $("#input-task").val(taskTitle);
+  $("#select-category").val(taskCategory);
+  $("#input-date").val(taskDate);
+  $("#select-priority").val(taskPriority);
+});
+
+const renderTasks = function (tasksObjArray) {
+  for (let task of tasksObjArray) {
+    let layout = createTask(task);
+    $("#list-section").prepend(layout)
   }
-}
+};
+
+const loadTasks = function () {
+
+  $.ajax('/list/todos', { method: 'GET' })
+    .then(function (data) {
+      renderTasks(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+};
 
 const createTask = function (taskData) {
-  if (taskData["task-category"] === undefined) {
-    if (taskData["task-name"].toLowerCase().includes("watch")) {
-      taskData["task-category"] = "watch"
-    } else if (taskData["task-name"].toLowerCase().includes("eat")) {
-      taskData["task-category"] = "eat"
-    } else if (taskData["task-name"].toLowerCase().includes("read")) {
-      taskData["task-category"] = "read"
-    } else if (taskData["task-name"].toLowerCase().includes("buy")) {
-      taskData["task-category"] = "buy"
+  if (taskData["category_id"] === undefined) {
+    if (taskData["content"].includes("1")) {
+      taskData["category_id"] = "watch"
+    } else if (taskData["content"].includes("2")) {
+      taskData["category_id"] = "eat"
+    } else if (taskData["content"].includes("3")) {
+      taskData["category_id"] = "read"
+    } else if (taskData["content"].includes("4")) {
+      taskData["category_id"] = "buy"
     }
   }
-  const $task = `<article class="task task-${taskData["task-category"]} invisible">
+  const $task = `<article class="task task-${taskData["category_id"]} invisible">
   <div>
-    <h2>${taskData["task-name"]}</h2>
-    <p>${taskData["task-date"]}</p>
+    <h2>${taskData.content}</h2>
   </div>
   <div class="task-icon-container">
-    <div class="dot ${taskData["task-priority"]}"></div>
+    <div class="dot ${taskData["priority_id"]}"></div>
     <div>
       <i class="task-icon fa-solid fa-square-check"></i>
       <i class="task-icon fa-solid fa-pencil"></i>
@@ -36,7 +67,7 @@ const createTask = function (taskData) {
   </div>
 </article>`;
 
-  $("#list-section").prepend($task)
+return $task
 }
 
 // Update the task when the form is submitted
@@ -114,25 +145,27 @@ $("#nav-all").on("click", (event) => {
 
 // Show watch tasks
 $("#nav-watch").on("click", (event) => {
-  filterTasks("watch");
+  filterTasks("1");
 });
 
 // Show eat tasks
 $("#nav-eat").on("click", (event) => {
-  filterTasks("eat");
+  filterTasks("2");
 });
 
 // Show read tasks
 $("#nav-read").on("click", (event) => {
-  filterTasks("read");
+  filterTasks("3");
 });
 
 // Show buy tasks
 $("#nav-buy").on("click", (event) => {
-  filterTasks("buy");
+  filterTasks("4");
 });
 
 // Show completed tasks
 $("#nav-completed").on("click", (event) => {
   filterTasks("completed");
 });
+
+loadTasks();
