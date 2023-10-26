@@ -1,8 +1,9 @@
--- Drop and recreate Users table (Example)
-
 DROP TABLE IF EXISTS lists CASCADE;
 CREATE TABLE lists (
   id SERIAL PRIMARY KEY NOT NULL,
   content VARCHAR(255) NOT NULL,
-  checked BOOLEAN NOT NULL DEFAULT false
+  priority_id INTEGER REFERENCES priorities(id) ON DELETE CASCADE
+  category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE
+  checked BOOLEAN NOT NULL DEFAULT false,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
