@@ -17,7 +17,7 @@ router.post("/check", async (req, res) => {
 // Display the todo list
 router.get('/todos', async (req, res) => {
   try {
-    const todos = await database.getAllTodos();
+    const todos = await database.getAllTodosForUser(req.session.userId);
     res.render('todo-list', { todos: todos });
   } catch (error) {
     res.status(500).send('Error fetching todo list');
@@ -27,10 +27,12 @@ router.get('/todos', async (req, res) => {
 
 // Add a new todo item
 router.post('/todos', async (req, res) => {
+  console.log('works');
   try {
+    const id = req.session.userId;
     const { content } = req.body;
-    await database.createTodo(content);
-    res.redirect('/todos');
+    await database.createTodo(content, id, 1, 1);
+    res.redirect('/list/todos');
   } catch (error) {
     res.status(500).send('Error creating todo item');
   }
@@ -53,7 +55,7 @@ router.post('/todos/:id', async (req, res) => {
     const todoId = req.params.id;
     const { content } = req.body;
     await database.updateTodo(todoId, content);
-    res.redirect('/todos');
+    res.redirect('/list/todos');
   } catch (error) {
     res.status(500).send('Error updating todo item');
   }
@@ -64,7 +66,7 @@ router.post('/todos/:id/delete', async (req, res) => {
   try {
     const todoId = req.params.id;
     await database.deleteTodo(todoId);
-    res.redirect('/todos');
+    res.redirect('/list/todos');
   } catch (error) {
     res.status(500).send('Error deleting todo item');
   }
