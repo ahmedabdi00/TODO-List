@@ -6,17 +6,17 @@ body {
     background-color: #2D3748;
     color: #FFF;
     font-family: "Fira sans", sans-serif;
-  }
+}
 
-  form {
+form {
     background-color: #374151;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  }
-  
-  form input,
-  form button {
+}
+
+form input,
+form button {
     width: 300px;
     display: block;
     margin: 0 auto;
@@ -24,79 +24,79 @@ body {
     margin-bottom: 10px;
     border: none;
     border-radius: 5px;
-  }
-  
-  form button {
+}
+
+form button {
     background-color: #EF4444;
     color: #FFF;
     cursor: pointer;
-  }
-  
-  form button:hover {
+}
+
+form button:hover {
     background-color: #FF6B6B;
-  }
-  
-  
-  header {
+}
+
+
+header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
     background-color: #374151;
-  }
-  
-  #header-right {
+}
+
+#header-right {
     display: flex;
     align-items: center;
     gap: 20px;
     color: #FFF;
     font-weight: 700;
     font-size: 1.2rem;
-  }
-  
-  #logout-button {
+}
+
+#logout-button {
     background-color: #EF4444;
     color: #FFF;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  #logout-button:hover {
+}
+
+#logout-button:hover {
     background-color: #FF6B6B;
-  }
-  
-  a {
+}
+
+a {
     text-decoration: none;
     color: #b6b4b4;
-  }
-  
-  #nav-list {
+}
+
+#nav-list {
     display: flex;
     margin-left: 20px;
-  }
-  
-  .nav-item {
+}
+
+.nav-item {
     display: flex;
     align-items: center;
     gap: 5px;
     padding: 0 15px;
-  }
-  
-  main {
+}
+
+main {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     margin: 0 20px;
-  }
-  
-  .task-list {
+}
+
+.task-list {
     display: flex;
     flex-direction: column;
-  }
-  
-  .task {
+}
+
+.task {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -106,73 +106,72 @@ body {
     padding: 0 15px;
     border-radius: 1rem;
     transition: 0.4s;
-  }
-  
-  .task:hover {
+}
+
+.task:hover {
     background-color: #4A5568;
-  }
-  
-  .task-icon-container {
+}
+
+.task-icon-container {
     display: flex;
     gap: 20px;
-  }
-  
-  .fa-circle-plus {
+}
+
+.fa-circle-plus {
     margin: 15px;
     font-size: 3em;
     color: #EF4444;
-  }
-  
-  .clicked.fa-square-check {
+}
+
+.clicked.fa-square-check {
     color: #22C55E;
-  }
-  
-  .fa-square-check:hover {
+}
+
+.fa-square-check:hover {
     cursor: pointer;
-  }
-  
-  .fa-pencil:hover {
+}
+
+.fa-pencil:hover {
     color: #E2DF00;
     cursor: pointer;
-  }
-  
-  .fa-trash:hover {
+}
+
+.fa-trash:hover {
     cursor: pointer;
-  }
-  
-  .fa-trash:hover {
+}
+
+.fa-trash:hover {
     color: #EF4444;
-  }
-  
-  .dot {
+}
+
+.dot {
     height: 15px;
     width: 15px;
     border-radius: 50%;
     display: inline-block;
-  }
-  
-  .high-priority {
+}
+
+.high-priority {
     background-color: #EF4444;
-  }
-  
-  .med-priority {
+}
+
+.med-priority {
     background-color: #FFD700;
-  }
-  
-  .low-priority {
+}
+
+.low-priority {
     background-color: #00D700;
-  }
-  
-  .invisible {
+}
+
+.invisible {
     display: none;
-  }
-  
-  nav > a.active {
+}
+
+nav>a.active {
     background-color: #2D3748;
-  }
-  
-  footer {
+}
+
+footer {
     display: flex;
     flex-direction: row-reverse;
-  }
-  
+}
