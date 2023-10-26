@@ -32,10 +32,6 @@ $openModalBtn.on("click", () => {
   openModal();
 });
 
-$("#list-section").on('click', '.fa-pencil', function (event) {
-  openModal();
-});
-
 $closeModalBtn.on("click", () => {
   closeModal();
 });
