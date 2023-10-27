@@ -19,13 +19,13 @@ const createTask = function (taskData) {
     taskData["priority_id"] = "high-priority";
   }
 
-  if (taskData["content"].toLowerCase().includes("watch")) {
+  if (taskData["content"].toLowerCase().includes("watch") || taskData["category_id"] === 1) {
     taskData["category_id"] = "watch";
-  } else if (taskData["content"].toLowerCase().includes("eat")) {
+  } else if (taskData["content"].toLowerCase().includes("eat") || taskData["category_id"] === 2) {
     taskData["category_id"] = "eat";
-  } else if (taskData["content"].toLowerCase().includes("read")) {
+  } else if (taskData["content"].toLowerCase().includes("read") || taskData["category_id"] === 3) {
     taskData["category_id"] = "read";
-  } else if (taskData["content"].toLowerCase().includes("buy")) {
+  } else if (taskData["content"].toLowerCase().includes("buy") || taskData["category_id"] === 4) {
     taskData["category_id"] = "buy";
   }
   const $task = `<article class="task task-${taskData["category_id"]}" name="${taskData["id"]}">
@@ -123,13 +123,7 @@ $navItems.on("click", function (event) {
 // Delete a task when .fa-trash is clicked
 $("#list-section").on('click', '.fa-trash', function (event) {
   const taskId = $(event.target).closest('.task')[0].getAttribute('name');
-  $.ajax(`/list/todos/${taskId}/delete`, { method: 'POST' })
-    .then(function () {
-      loadTasks();
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+  $.ajax(`/list/todos/${taskId}/delete`, { method: 'POST' });
 });
 
 // Toggle task completion when .fa-square-check is clicked
@@ -191,7 +185,7 @@ $("#nav-completed").on("click", (event) => {
 
 const loadTasks = function () {
 
-  $.ajax('/list/todos', { method: 'GET' })
+  $.ajax('/list/todos/order', { method: 'GET' })
     .then(function (data) {
       $("#list-section").empty();
       renderTasks(data);

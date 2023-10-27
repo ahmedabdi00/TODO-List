@@ -25,6 +25,7 @@ router.get('/todos', async (req, res) => {
 });
 
 router.get('/todos/order', async (req, res) => {
+  console.log('1');
   try {
     const todos = await database.getAllTodosForUserOrderByPriority(req.session.userId);
     res.send(todos);

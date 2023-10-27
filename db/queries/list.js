@@ -56,8 +56,9 @@ const getAllTodosForUserAndCategory = function (userId, categoryId) {
 };
 
 const getAllTodosForUserOrderByPriority = function (userId) {
+  console.log('2');
   return db
-    .query(`SELECT * FROM items WHERE user_id = $1 ORDER BY priority_id DESC RETURNING *;`, [userId])
+    .query(`SELECT * FROM items WHERE user_id = $1 ORDER BY priority_id ASC;`, [userId])
     .then((result) => {
       return result.rows;
     })
