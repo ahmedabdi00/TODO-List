@@ -59,19 +59,27 @@ $("form").on("submit", (event) => {
 
   const $taskText = formDataObj["task-name"];
   const $taskCategory = formDataObj["task-category"];
-  const $taskDate = formDataObj["task-date"];
   const $taskPriority = formDataObj["task-priority"];
 
   const categoryNum = categoryNumObj[$taskCategory];
-  const priorityNum = priorityNumObj[$taskPriority]
+  const priorityNum = priorityNumObj[$taskPriority];
 
   const userFormObj = {
-    "name": $taskText,
+    "content": $taskText,
     "category": categoryNum,
     "priority": priorityNum
-  }
+  };
 
-  console.log(userFormObj)
+
+  $.ajax({
+    url: '/list/todos', method: 'POST', data: { content: userFormObj.content, category: userFormObj.category, priority: userFormObj.priority }
+  })
+    .then(function () {
+      loadTasks();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
 
   $("form")[0].reset();
 });

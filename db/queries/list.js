@@ -11,9 +11,9 @@ const checkList = function (id, check) {
     });
 };
 
-const createTodo = function (content, userId, priorityId, cateogryId) {
+const createTodo = function (content, userId, priorityId, categoryId) {
   return db
-    .query(`INSERT INTO items (content, user_id, priority_id, category_id) VALUES ($1, $2, $3, $4) RETURNING *;`, [content, userId, priorityId, cateogryId])
+    .query(`INSERT INTO items (content, user_id, priority_id, category_id) VALUES ($1, $2, $3, $4) RETURNING *;`, [content, userId, priorityId, categoryId])
     .then((result) => {
       return result.rows[0];
     })
