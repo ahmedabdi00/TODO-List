@@ -46,40 +46,6 @@ const createTask = function (taskData) {
   return $task
 }
 
-// Update the task when the form is submitted
-$("form").on("submit", (event) => {
-  const categoryNumObj = {
-    "watch": 1,
-    "eat": 2,
-    "read": 3,
-    "buy": 4
-  };
-
-  const priorityNumObj = {
-    "low-priority": 1,
-    "med-priority": 2,
-    "high-priority": 3
-  }
-  event.preventDefault();
-  const myFormData = new FormData(event.target)
-  const formDataObj = Object.fromEntries(myFormData.entries())
-
-  const $taskText = formDataObj["task-name"];
-  const $taskCategory = formDataObj["task-category"];
-  const $taskDate = formDataObj["task-date"];
-  const $taskPriority = formDataObj["task-priority"];
-
-  const categoryNum = categoryNumObj[$taskCategory];
-  const priorityNum = priorityNumObj[$taskPriority]
-
-  const userFormObj = {
-    "name": $taskText,
-    "category": categoryNum,
-    "priority": priorityNum
-  }
-
-  $("form")[0].reset();
-});
 
 $navItems.on("click", function (event) {
   // Remove the "active" class from all <a> elements
