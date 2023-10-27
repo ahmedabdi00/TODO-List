@@ -24,6 +24,15 @@ router.get('/todos', async (req, res) => {
   }
 });
 
+router.get('/todos/order', async (req, res) => {
+  try {
+    const todos = await database.getAllTodosForUserOrderByPriority(req.session.userId);
+    res.send(todos);
+  } catch (error) {
+    res.status(500).send('Error fetching todo list');
+  }
+});
+
 
 // Add a new todo item
 router.post('/todos', async (req, res) => {

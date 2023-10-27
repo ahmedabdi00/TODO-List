@@ -55,6 +55,17 @@ const getAllTodosForUserAndCategory = function (userId, categoryId) {
     });
 };
 
+const getAllTodosForUserOrderByPriority = function (userId) {
+  return db
+    .query(`SELECT * FROM items WHERE user_id = $1 ORDER BY priority_id DESC RETURNING *;`, [userId])
+    .then((result) => {
+      return result.rows;
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
+};
+
 const deleteTodo = function (todoId) {
   return db
     .query(`DELETE FROM items WHERE id = $1 RETURNING *;`, [todoId])
@@ -77,4 +88,4 @@ const getTodoById = function (todoId) {
     });
 };
 
-module.exports = { checkList, createTodo, updateTodo, getAllTodosForUser, deleteTodo, getTodoById, getAllTodosForUserAndCategory };
+module.exports = { checkList, createTodo, updateTodo, getAllTodosForUser, deleteTodo, getTodoById, getAllTodosForUserAndCategory, getAllTodosForUserOrderByPriority };
