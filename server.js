@@ -57,7 +57,6 @@ app.get('/', (req, res) => {
   if (req.session.userId === undefined) {
     res.render('login');
   } else {
-    console.log(req.session.userId);
     res.render('index');
   }
 });

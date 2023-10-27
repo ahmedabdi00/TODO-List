@@ -27,7 +27,6 @@ router.get('/todos', async (req, res) => {
 
 // Add a new todo item
 router.post('/todos', async (req, res) => {
-  console.log('works');
   try {
     const id = req.session.userId;
     const content = req.body.content;
