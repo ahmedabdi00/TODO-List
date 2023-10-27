@@ -129,8 +129,15 @@ $("#list-section").on('click', '.fa-trash', function (event) {
 // Toggle task completion when .fa-square-check is clicked
 $("#list-section").on('click', '.fa-square-check', function (event) {
   $(event.target).toggleClass("clicked");
-  $(this).closest("article").toggleClass("task-completed")
-  $(this).closest("article").toggleClass("invisible")
+  $(this).closest("article").toggleClass("task-completed");
+  const checked = $(this).closest("article").hasClass("task-completed");
+  console.log(checked);
+  const taskId = $(event.target).closest('.task')[0].getAttribute('name');
+  console.log(taskId);
+  //$(this).closest("article").toggleClass("invisible");
+  $.ajax({
+    url: '/list/check', method: 'POST', data: { id: taskId, check: checked }
+  })
 });
 
 // Show all tasks
@@ -144,7 +151,7 @@ function filterTasks(category) {
   const $task = $(".task");
   $task.each((index, element) => {
     const $element = $(element);
-    const $squareCheck = $element.find('.fa-square-check');
+    //const $squareCheck = $element.find('.fa-square-check');
     if (category === "all" || $element.hasClass(`task-${category}`)) {
       $element.removeClass("invisible");
     } else {
