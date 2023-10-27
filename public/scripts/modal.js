@@ -32,29 +32,30 @@ $openModalBtn.on("click", () => {
   openModal();
 });
 
-$("#list-section").on('click', '.fa-pencil', function (event) {
-  openModal();
-    // Store the task being edited for later reference
-    taskToEdit = $(event.target).closest('.task');
-
-    // Pre-fill the form with the task details
-    const taskTitle = taskToEdit.find('h2').text();
-    const taskCategory = taskToEdit.hasClass('task-watch') ? 'watch' :
-      taskToEdit.hasClass('task-eat') ? 'eat' :
-        taskToEdit.hasClass('task-read') ? 'read' : 'buy';
-    const taskDate = taskToEdit.find('p').text();
-    const taskPriority = taskToEdit.find('.dot').attr('class').replace('dot', '').trim();
-  
-    $("#input-task").val(taskTitle);
-    $("#select-category").val(taskCategory);
-    $("#input-date").val(taskDate);
-    $("#select-priority").val(taskPriority);
-});
-
 $closeModalBtn.on("click", () => {
   closeModal();
 });
 
 $overlay.on("click", () => {
   closeModal();
+});
+
+$("#list-section").on('click', '.fa-pencil', function (event) {
+  openModal();
+
+  // Store the task being edited for later reference
+  taskToEdit = $(event.target).closest('.task');
+
+  // Pre-fill the form with the task details
+  const taskTitle = taskToEdit.find('h2').text();
+  const taskCategory = taskToEdit.hasClass('task-watch') ? 'watch' :
+    taskToEdit.hasClass('task-eat') ? 'eat' :
+    taskToEdit.hasClass('task-read') ? 'read' : 'buy';
+  const taskDate = taskToEdit.find('p').text();
+  const taskPriority = taskToEdit.find('.dot').attr('class').replace('dot', '').trim();
+
+  $("#input-task").val(taskTitle);
+  $("#select-category").val(taskCategory);
+  $("#input-date").val(taskDate);
+  $("#select-priority").val(taskPriority);
 });
