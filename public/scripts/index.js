@@ -139,12 +139,20 @@ $("#list-section").on('click', '.fa-square-check', function (event) {
   const taskId = $task.attr('name');
 
   $(event.target).toggleClass("clicked");
-  $task.toggleClass("task-completed");
+  $(this).closest("article").toggleClass("task-completed");
+  const checked = $(this).closest("article").hasClass("task-completed");
+  console.log(checked);
+  const taskId = $(event.target).closest('.task')[0].getAttribute('name');
+  console.log(taskId);
+  //$(this).closest("article").toggleClass("invisible");
+  $.ajax({
+    url: '/list/check', method: 'POST', data: { id: taskId, check: checked }
+  })
+});
 
-  const destinationList = $task.hasClass("task-completed") ? $("#completed-section") : $("#list-section");
-
-  destinationList.prepend($task);
-
+// Show all tasks
+$("#nav-all").on("click", (event) => {
+  const $task = $(".task");
   $task.removeClass("invisible");
 
   $.ajax({
@@ -167,7 +175,7 @@ function filterTasks(category) {
   const $task = $(".task");
   $task.each((index, element) => {
     const $element = $(element);
-    const $squareCheck = $element.find('.fa-square-check');
+    //const $squareCheck = $element.find('.fa-square-check');
     if (category === "all" || $element.hasClass(`task-${category}`)) {
       $element.removeClass("invisible");
     } else {
