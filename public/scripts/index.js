@@ -19,13 +19,13 @@ const createTask = function (taskData) {
     taskData["priority_id"] = "high-priority";
   }
 
-  if (taskData["content"].toLowerCase().includes("watch")) {
+  if (taskData["content"].toLowerCase().includes("watch") || taskData["category_id"] === 1) {
     taskData["category_id"] = "watch";
-  } else if (taskData["content"].toLowerCase().includes("eat")) {
+  } else if (taskData["content"].toLowerCase().includes("eat") || taskData["category_id"] === 2) {
     taskData["category_id"] = "eat";
-  } else if (taskData["content"].toLowerCase().includes("read")) {
+  } else if (taskData["content"].toLowerCase().includes("read") || taskData["category_id"] === 3) {
     taskData["category_id"] = "read";
-  } else if (taskData["content"].toLowerCase().includes("buy")) {
+  } else if (taskData["content"].toLowerCase().includes("buy") || taskData["category_id"] === 4) {
     taskData["category_id"] = "buy";
   }
   const $task = `<article class="task task-${taskData["category_id"]}" name="${taskData["id"]}">
@@ -59,6 +59,7 @@ $("form").on("submit", (event) => {
     "med-priority": 2,
     "high-priority": 3
   }
+
   event.preventDefault();
   const myFormData = new FormData(event.target)
   const formDataObj = Object.fromEntries(myFormData.entries())
@@ -78,9 +79,16 @@ $("form").on("submit", (event) => {
 
 
   $.ajax({
-    url: '/list/todos', method: 'POST', data: { content: userFormObj.content, category: userFormObj.category, priority: userFormObj.priority }
+    url: '/list/todos',
+    method: 'POST',
+    data: {
+      content: userFormObj.content,
+      category: userFormObj.category,
+      priority: userFormObj.priority
+    }
   })
     .then(function () {
+      console.log("YESSS")
       loadTasks();
     })
     .catch((error) => {

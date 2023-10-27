@@ -12,6 +12,10 @@ const openModal = function () {
 
 // Event handler to open the modal when the "Add Task" button is clicked
 $("#add-task").on("click", () => {
+
+  $(".edit-btn").addClass("hidden")
+  $(".submit-btn").removeClass("hidden")
+
   // Clear the form inputs
   $("#input-task").val("");
   $("#select-category").val("");
@@ -42,6 +46,8 @@ $overlay.on("click", () => {
 
 $("#list-section").on('click', '.fa-pencil', function (event) {
   openModal();
+  $(".submit-btn").addClass("hidden")
+  $(".edit-btn").removeClass("hidden")
 
   // Store the task being edited for later reference
   taskToEdit = $(event.target).closest('.task');
