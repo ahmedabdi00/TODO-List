@@ -45,6 +45,27 @@ const createTask = function (taskData) {
   return $task
 }
 
+const logoutButton = document.getElementById('logout-button');
+
+logoutButton.addEventListener('click', function (event) {
+  event.preventDefault();
+
+  fetch('/logout', {
+    method: 'GET',
+  })
+    .then((response) => {
+      if (response.ok) {
+        window.location.href = '/login';
+      } else {
+        throw new Error('Logout failed');
+      }
+    })
+    .catch((error) => {
+      console.error('An error occurred:', error);
+    });
+});
+
+
 // Update the task when the form is submitted
 $("form").on("submit", (event) => {
   const categoryNumObj = {
