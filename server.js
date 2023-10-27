@@ -73,6 +73,11 @@ app.get('/users/register', (req, res) => {
   res.render('register');
 });
 
+app.get('/logout', (req, res) => {
+  req.session = null;
+  res.redirect('/login');
+});
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
