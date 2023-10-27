@@ -78,6 +78,21 @@ app.get('/logout', (req, res) => {
   res.redirect('/login');
 });
 
+app.post('/list/todos/:taskId/check', (req, res) => {
+  const taskId = req.params.taskId;
+  const isChecked = req.body.check; 
+
+  database.checkList(taskId, isChecked)
+    .then((result) => {
+      res.status(200).send('Task status updated successfully');
+    })
+    .catch((err) => {
+      console.error(err.message);
+      res.status(500).send('Error updating task status');
+    });
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

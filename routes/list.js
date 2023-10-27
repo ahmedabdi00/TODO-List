@@ -83,4 +83,18 @@ router.post('/todos/:id/delete', async (req, res) => {
   }
 });
 
+// Handle task completion request
+router.post('/todos/:taskId/check', async (req, res) => {
+  try {
+    const taskId = req.params.taskId; 
+    const checkStatus = req.body.check; 
+
+    await database.updateTaskCompletion(taskId, checkStatus);
+
+    res.status(200).send('Todo item checked successfully'); 
+  } catch (error) {
+    res.status(500).send('Error checking todo item');
+  }
+});
+
 module.exports = router;

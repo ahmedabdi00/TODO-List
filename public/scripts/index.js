@@ -19,13 +19,13 @@ const createTask = function (taskData) {
     taskData["priority_id"] = "high-priority";
   }
 
-  if (taskData["content"].toLowerCase().includes("watch") || taskData["category_id"] === 1) {
+  if (taskData["content"].toLowerCase().includes("watch")) {
     taskData["category_id"] = "watch";
-  } else if (taskData["content"].toLowerCase().includes("eat") || taskData["category_id"] === 2) {
+  } else if (taskData["content"].toLowerCase().includes("eat")) {
     taskData["category_id"] = "eat";
-  } else if (taskData["content"].toLowerCase().includes("read") || taskData["category_id"] === 3) {
+  } else if (taskData["content"].toLowerCase().includes("read")) {
     taskData["category_id"] = "read";
-  } else if (taskData["content"].toLowerCase().includes("buy") || taskData["category_id"] === 4) {
+  } else if (taskData["content"].toLowerCase().includes("buy")) {
     taskData["category_id"] = "buy";
   }
   const $task = `<article class="task task-${taskData["category_id"]}" name="${taskData["id"]}">
@@ -64,6 +64,7 @@ logoutButton.addEventListener('click', function (event) {
       console.error('An error occurred:', error);
     });
 });
+
 
 
 // Update the task when the form is submitted
@@ -123,21 +124,43 @@ $navItems.on("click", function (event) {
 // Delete a task when .fa-trash is clicked
 $("#list-section").on('click', '.fa-trash', function (event) {
   const taskId = $(event.target).closest('.task')[0].getAttribute('name');
-  $.ajax(`/list/todos/${taskId}/delete`, { method: 'POST' });
+  $.ajax(`/list/todos/${taskId}/delete`, { method: 'POST' })
+    .then(function () {
+      loadTasks();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
 });
 
-// Toggle task completion when .fa-square-check is clicked
+// Handle task completion
 $("#list-section").on('click', '.fa-square-check', function (event) {
+  const $task = $(this).closest("article");
+  const taskId = $task.attr('name');
+
   $(event.target).toggleClass("clicked");
-  $(this).closest("article").toggleClass("task-completed")
-  $(this).closest("article").toggleClass("invisible")
+  $task.toggleClass("task-completed");
+
+  const destinationList = $task.hasClass("task-completed") ? $("#completed-section") : $("#list-section");
+
+  destinationList.prepend($task);
+
+  $task.removeClass("invisible");
+
+  $.ajax({
+    url: `/list/todos/${taskId}/check`,
+    method: 'POST',
+    data: { check: $task.hasClass("task-completed") },
+  })
+    .then(function (data) {
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 });
 
-// Show all tasks
-$("#nav-all").on("click", (event) => {
-  const $task = $(".task");
-  $task.removeClass("invisible");
-});
+
+
 
 // Show watch tasks
 function filterTasks(category) {
@@ -152,6 +175,7 @@ function filterTasks(category) {
     }
   });
 }
+
 
 // Show all tasks
 $("#nav-all").on("click", (event) => {
@@ -185,7 +209,7 @@ $("#nav-completed").on("click", (event) => {
 
 const loadTasks = function () {
 
-  $.ajax('/list/todos/order', { method: 'GET' })
+  $.ajax('/list/todos', { method: 'GET' })
     .then(function (data) {
       $("#list-section").empty();
       renderTasks(data);
