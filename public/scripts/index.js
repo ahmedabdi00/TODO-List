@@ -11,25 +11,18 @@ const renderTasks = function (tasksObjArray) {
 };
 
 const createTask = function (taskData) {
-  if (taskData["priority_id"] === 1) {
-    taskData["priority_id"] = "low-priority";
-  } else if (taskData["priority_id"] === 2) {
-    taskData["priority_id"] = "med-priority";
-  } else if (taskData["priority_id"] === 3) {
-    taskData["priority_id"] = "high-priority";
+  if (taskData["category_id"] === undefined) {
+    if (taskData["content"].includes("1")) {
+      taskData["category_id"] = "watch"
+    } else if (taskData["content"].includes("2")) {
+      taskData["category_id"] = "eat"
+    } else if (taskData["content"].includes("3")) {
+      taskData["category_id"] = "read"
+    } else if (taskData["content"].includes("4")) {
+      taskData["category_id"] = "buy"
+    }
   }
-
-  if (taskData["content"].toLowerCase().includes("watch")) {
-    taskData["category_id"] = "watch";
-  } else if (taskData["content"].toLowerCase().includes("eat")) {
-    taskData["category_id"] = "eat";
-  } else if (taskData["content"].toLowerCase().includes("read")) {
-    taskData["category_id"] = "read";
-  } else if (taskData["content"].toLowerCase().includes("buy")) {
-    taskData["category_id"] = "buy";
-  }
-
-  const $task = `<article class="task task-${taskData["category_id"]}" name="${taskData["id"]}">
+  const $task = `<article class="task task-${taskData["category_id"]} ${taskData["id"]}" name="${taskData["id"]}">
   <div>
     <h2>${taskData.content}</h2>
   </div>
@@ -46,6 +39,50 @@ const createTask = function (taskData) {
   return $task
 }
 
+// Update the task when the form is submitted
+$("form").on("submit", (event) => {
+  const categoryNumObj = {
+    "watch": 1,
+    "eat": 2,
+    "read": 3,
+    "buy": 4
+  };
+
+  const priorityNumObj = {
+    "low-priority": 1,
+    "med-priority": 2,
+    "high-priority": 3
+  }
+  event.preventDefault();
+  const myFormData = new FormData(event.target)
+  const formDataObj = Object.fromEntries(myFormData.entries())
+
+  const $taskText = formDataObj["task-name"];
+  const $taskCategory = formDataObj["task-category"];
+  const $taskPriority = formDataObj["task-priority"];
+
+  const categoryNum = categoryNumObj[$taskCategory];
+  const priorityNum = priorityNumObj[$taskPriority];
+
+  const userFormObj = {
+    "content": $taskText,
+    "category": categoryNum,
+    "priority": priorityNum
+  };
+
+
+  $.ajax({
+    url: '/list/todos', method: 'POST', data: { content: userFormObj.content, category: userFormObj.category, priority: userFormObj.priority }
+  })
+    .then(function () {
+      loadTasks();
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+
+  $("form")[0].reset();
+});
 
 $navItems.on("click", function (event) {
   // Remove the "active" class from all <a> elements
@@ -102,22 +139,22 @@ $("#nav-all").on("click", (event) => {
 
 // Show watch tasks
 $("#nav-watch").on("click", (event) => {
-  filterTasks("watch");
+  filterTasks("1");
 });
 
 // Show eat tasks
 $("#nav-eat").on("click", (event) => {
-  filterTasks("eat");
+  filterTasks("2");
 });
 
 // Show read tasks
 $("#nav-read").on("click", (event) => {
-  filterTasks("read");
+  filterTasks("3");
 });
 
 // Show buy tasks
 $("#nav-buy").on("click", (event) => {
-  filterTasks("buy");
+  filterTasks("4");
 });
 
 // Show completed tasks

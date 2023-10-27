@@ -30,9 +30,11 @@ router.post('/todos', async (req, res) => {
   console.log('works');
   try {
     const id = req.session.userId;
-    const { content } = req.body;
-    await database.createTodo(content, id, 1, 1);
-    res.redirect('/list/todos');
+    const content = req.body.content;
+    const categoryId = req.body.category;
+    const priorityId = req.body.priority;
+    await database.createTodo(content, id, priorityId, categoryId);
+    
   } catch (error) {
     res.status(500).send('Error creating todo item');
   }
@@ -54,7 +56,7 @@ router.post('/todos/:id', async (req, res) => {
   try {
     const todoId = req.params.id;
     const { content } = req.body;
-    await database.updateTodo(todoId, content);
+    await database.updateTodo(todoId, content, priorityId, categoryId);
     res.redirect('/list/todos');
   } catch (error) {
     res.status(500).send('Error updating todo item');
